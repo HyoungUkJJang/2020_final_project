@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="my.project.dao.UserDAO">
+	
+	<insert id="userjoin" parameterType="my.project.dto.UserDto">
+		insert into userinfo(userid, userpwd, username, userbirth, usermajor, userimg, alertnotice, secret) values(#{userid}, #{userpwd}, #{username}, #{userbirth}, #{usermajor}, #{userimg},0,0)
+	</insert>
+	
+	<select id="userlogin" parameterType="my.project.dto.UserDto" resultType="my.project.dto.UserDto">
+		select * from userinfo where userid=#{userid} AND userpwd=#{userpwd}
+	</select>
+	
+	<select id="getuser" parameterType="String" resultType="my.project.dto.UserDto">
+		select * from userinfo where userid=#{userid} 
+	</select>
+	
+	
+	<insert id="profileset" parameterType="String">
+		insert into userprofile values(#{userid},'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-')
+	</insert>
+	
+	<update id="profileinput1" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Easy_Profile_name=#{Easy_Profile_name}, Easy_profile_content=#{Easy_profile_content} where userid=#{userid}
+	</update>
+	
+	<update id="profileinput2" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Skill_name1=#{Skill_name1}, Skill_name2=#{Skill_name2}, Skill_name3=#{Skill_name3}, Skill_Value1=#{Skill_Value1}, 
+		Skill_Value2=#{Skill_Value2}, Skill_Value3=#{Skill_Value3} where userid=#{userid}
+	</update>
+	
+	<update id="profileinput3" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Education_Main_Name=#{Education_Main_Name}, Education_Sub_Name=#{Education_Sub_Name}, Education_Content=#{Education_Content} where userid=#{userid}
+	</update>
+	
+	<update id="profileinput4" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Languages1=#{Languages1}, Languages2=#{Languages2}, Languages3=#{Languages3} where userid=#{userid}
+	</update>
+	
+	<update id="profileinput5" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Contact_Place=#{Contact_Place}, Contact_Phone=#{Contact_Phone}, Contact_Mail=#{Contact_Mail}, Contact_Page=#{Contact_Page} where userid=#{userid}
+	</update>
+	
+	<update id="profileinput6" parameterType="my.project.test.ProfileDto2">
+		update userprofile set Experiences_Main_Name=#{Experiences_Main_Name}, Experiences_Sub_Name=#{Experiences_Sub_Name}, Experiences_Content=#{Experiences_Content} where userid=#{userid}
+	</update>
+	
+	<insert id="imgtest" parameterType="my.project.test.ImgtestDto">
+		insert into imgtest(imgname) values(#{imgname})
+	</insert>
+	
+	<select id="idcheck" resultType="String">
+		select userid from userinfo where userid = #{userid}
+	</select>
+	
+	<select id="getprofile" parameterType="String" resultType="my.project.test.ProfileDto2">
+		select * from userprofile where userid=#{userid}
+	</select>
+	
+	<update id="usernoticeup" parameterType="String">
+		update userinfo set alertnotice=alertnotice+1 where userid=#{userid}
+	</update>
+	
+	<update id="profilepicture" parameterType="my.project.dto.UserDto" >
+		update userinfo set userimg=#{userimg} where userid=#{userid}
+	</update>
+	<update id="secretchange" parameterType="my.project.dto.UserDto" >
+		update userinfo set secret=#{secret} where userid=#{userid}
+	</update>
+</mapper>

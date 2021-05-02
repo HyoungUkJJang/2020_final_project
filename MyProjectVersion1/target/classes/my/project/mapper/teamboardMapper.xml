@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="my.project.dao.TeamBoardDAO">
+ 
+	<insert id="teamboardinsert" parameterType="my.project.dto.TeamBoardDto">
+	insert into teamboard(userid, boardtitle, boardmajor, boardcontent, applynum, scannum, bdate, result) values(#{userid}, #{boardtitle}, #{boardmajor}, #{boardcontent},0,0,now(),0)
+	</insert>
+	
+	<select id="teamboardselect" resultType="my.project.dto.TeamBoardDto">
+		select * from teamboard
+	</select>
+	
+	<update id="teamscannumUp" parameterType="int">
+		update teamboard set scannum=scannum+1 where boardnum=#{boardnum}
+	</update>
+	
+	<update id="teamapplyUp" parameterType="int">
+		update teamboard set applynum=applynum+1 where boardnum=#{boardnum}
+	</update>
+	
+	<select id="teamboarddetail" parameterType="int" resultType="my.project.dto.TeamBoardDto">
+		select * from teamboard where boardnum=#{boardnum}
+	</select>
+	
+	<insert id="teamapply" parameterType="my.project.dto.TeamBoardApplyDto">
+		insert into teamboardapply values(#{boardnum}, #{masteruserid}, #{applyuserid}, #{applyusercontent} ) 
+	</insert>
+	
+	<select id="teamapplyselect" parameterType="my.project.dto.TeamBoardApplyDto" resultType="my.project.dto.TeamBoardApplyDto">
+		select * from teamboardapply where boardnum=#{boardnum} and applyuserid=#{applyuserid}
+	</select>
+	
+	<select id="myteamboard" parameterType="String" resultType="my.project.dto.TeamBoardDto">
+		select * from teamboard where userid=#{userid}
+	</select>
+	
+	<select id="teamapplycheck" parameterType="int" resultType="my.project.dto.TeamBoardApplyDto">
+		select * from teamboardapply where boardnum=#{boardnum}
+	</select>
+	<select id="applylist" parameterType="String" resultType="my.project.dto.TeamBoardDto">
+		select * from teamboard where boardnum=(select boardnum from teamboardapply where applyuserid=#{userid})
+	</select>
+	
+	<select id="profilecheck" parameterType="String" resultType="my.project.test.ProfileDto2">
+		select * from userprofile where userid=#{userid}
+	</select>
+	
+	<insert id="teammatch" parameterType="my.project.dto.TeamMatchDto">
+		insert into teammatch values(#{title}, #{content}, #{masteruserid}, #{applyuserid})
+	</insert>
+		
+	<select id="matchlist" parameterType="String" resultType="my.project.dto.TeamMatchDto">
+		select * from teammatch where masteruserid=#{userid} or applyuserid=#{userid}
+	</select>
+	
+	<insert id="noticeinsert" parameterType="my.project.dto.NoticeDto">
+		insert into notice values(#{userid}, #{content}, 1, now())
+	</insert>
+	
+	<select id="noticeselect" parameterType="String" resultType="my.project.dto.NoticeDto">
+		select * from notice where userid=#{userid}
+	</select>
+		<update id="teammatchcomplet" parameterType="int">
+		update teamboard set result=1 where boardnum=#{boardnum}
+	</update>
+
+ </mapper>
